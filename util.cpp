@@ -15,15 +15,21 @@ std::string convToLower(std::string src)
     to a set of words based on the criteria given in the assignment **/
 std::set<std::string> parseStringToWords(string rawWords)
 {
-
-
-
-
-
-
-
-
-
+    //criteria: split at punctuation or space, need at least 2 chars 
+    std::set<std::string> parsed; //thing to return 
+    unsigned int start = 0;
+    for (unsigned int i = 0; i < rawWords.length(); i++){
+        if (ispunct(rawWords[i]) || rawWords[i] == ' '){ //if punctuation or space 
+            if (i - start >= 2){  //make sure size is at least 2
+                parsed.insert(convToLower(rawWords.substr(start, i-start)));
+            }
+            start = i+1; //start after the punctuation/space
+        }
+				else if (i == rawWords.length()-1){
+					parsed.insert(convToLower(rawWords.substr(start, rawWords.length() - start)));
+				}
+    }
+    return parsed;
 
 }
 
