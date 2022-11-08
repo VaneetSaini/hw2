@@ -10,6 +10,7 @@
 #include "product_parser.h"
 #include "util.h"
 #include "mydatastore.h"
+#include <sstream>
 
 using namespace std;
 struct ProdNameSorter {
@@ -100,24 +101,46 @@ int main(int argc, char* argv[])
                 done = true;
             }
 	    /* Add support for other commands here */
-        else if (cmd == "ADD"){
-            string username;
-            int prod;
-            if(ss >> username >> prod){
-                ds.addCart(username, hits[prod]);
-            }
-        }
+        else if (cmd == "ADD")
+				{
+					string x;
+					vector<string> vecTotal;
+					while (ss >> x)
+					{
+						x = convToLower(x);
+						vecTotal.push_back(x);
+					}
+					if (!vecTotal.empty())
+					{
+						ds.addCart(vecTotal[0], vecTotal[1], hits);
+					}
+				}
         else if (cmd == "VIEWCART"){
             string username;
-            if (ss >> username){
-                ds.viewCart(username);
-            }
+						vector<string> users;
+            while(ss >> username)
+						{
+							username = convToLower(username);
+							users.push_back(username);
+						}
+						if (!users.empty())
+						{
+							ds.viewCart(users[0]);
+						}
         }
         else if (cmd == "BUYCART"){
             string username;
-            if (ss >> username){
-                ds.buyCart(username);
-            }
+						vector<string> users;
+            while(ss >> username)
+						{
+							username = convToLower(username);
+							users.push_back(username);
+						}
+						if (!users.empty())
+						{
+							cout << users[0] << endl;
+							ds.buyCart(users[0]);
+						}
         }
 
 

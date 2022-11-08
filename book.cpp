@@ -1,5 +1,11 @@
 #include "book.h"
 #include "util.h"
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <string> 
+#include <sstream>
+#include <iomanip> 
 
 using namespace std;
 
@@ -7,11 +13,8 @@ Book::Book(const std::string category, const std::string name, double price, int
 	Product(category, name, price, qty)
 	
 {
-	name_ = name;
-	price_ = price;
 	author_ = author;
 	isbn_ = isbn;
-	qty_ = qty;
 
 }
 
@@ -23,22 +26,26 @@ Book::~Book()
 std::set<std::string> Book::keywords() const
 {
 	std::set<std::string> result;
-	std::set<std::string> keyAuth;
-	std::set<std::string> keyISBN;
-	std::set<std::string> keyName;
-
-	keyAuth = parseStringToWords(author_);
-	keyISBN = parseStringToWords(isbn_);
-	keyName = parseStringToWords(name_);
-	std::set<std::string> temp = setUnion(keyName, keyAuth);
-	result = setUnion(temp, keyISBN);
+	std::set<std::string> author;
+	result = parseStringToWords(name_);
+	author = parseStringToWords(author_);
+	std::set<std::string>::iterator it;
+	for (it = author.begin(); it != author.end(); ++it)
+	{
+		result.insert(*it);
+	}
+	result.insert(to_string(price_));
+	result.insert(to_string(qty_));
+	result.insert(isbn_);
 
 	return result;
 }
 
 std::string Book::displayString() const
 {
-	return name_ + "\n" + "Author: " + author_ + " ISBN: " + isbn_ + "\n" + std::to_string(price_) + " " + std::to_string(qty_) + " left.";
+	stringstream ss;
+	ss << name_ << "\n" << "Author: " << author_ << " " << "ISBN: " << isbn_ << price_ << " " << qty_ << " " << "left." << "\n" << std::endl;
+	return ss.str();
 }
 
 void Book::dump(std::ostream& os) const

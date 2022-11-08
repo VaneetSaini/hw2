@@ -15,16 +15,17 @@ public:
 	void addUser(User* u);
 	std::vector<Product*> search(std::vector<std::string>& terms, int type);
 	void dump(std::ostream& ofile);
-	void addCart(std::string user, Product* p);
+	void addCart(std::string user, std::string search, std::vector<Product*> hits);
 	void viewCart(std::string user);
 	void buyCart(std::string user);
 
 	private:
-		std::vector<Product*> Products;
-		std::map<std::string, User*> users;
-		std::map<std::string, std::vector<Product*>> usersCart;
-		std::map<std::string, std::set<Product*>> mapOfProducts;
-
+		std::vector<Product*> hits;
+		std::vector<Product*> vecProducts;
+		std::map<std::string, User*> mapUsers;
+		std::map<User*, std::vector<Product*>> mapCart;
+		std::map<std::string, std::set<Product*>> mapProduct;
+		//std::map<std::string, std::set<Product*>> keyProduct;
 };
 #endif
 
